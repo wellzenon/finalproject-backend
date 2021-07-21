@@ -26,15 +26,31 @@ class UserSerializer(serializers.ModelSerializer):
             "event_comments"
         )
         extra_kwargs = {'password': {'write_only': True}}
-        depth = 1
+        # depth = 1
 
-class CommentSerializer(serializers.ModelSerializer):
+class OwnerSerializer(UserSerializer):
     class Meta:
-        model = Comment
-        fields = "__all__"
+        model = User
+        fields = (
+            "id",
+            "slug",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "birthday",
+            "bio"
+        )
 
 class EventSerializer(serializers.ModelSerializer):
+    owner = OwnerSerializer(default=serializers.CurrentUserDefault())
     class Meta:
         model = Event
         fields = "__all__"
-    
+        # depth = 1
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = OwnerSerializer(default=serializers.CurrentUserDefault())
+    class Meta:
+        model = Comment
+        fields = "__all__"

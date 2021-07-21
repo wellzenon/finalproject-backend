@@ -22,7 +22,7 @@ class Presence(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField(default=timezone.now)
-    is_insterested = models.BooleanField(default=False)
+    is_interested = models.BooleanField(default=False)
     is_confirmed = models.BooleanField(default=False)
 
     class Meta:
