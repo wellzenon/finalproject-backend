@@ -48,7 +48,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
 class LoggedUserView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -61,7 +61,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsUserOrReadOnly]
 
 class EventViewSet(viewsets.ModelViewSet):
     """

@@ -25,7 +25,13 @@ def loginView(request):
     password = data.get("password")
 
     if None in [username, password]:
-        return JsonResponse({"info": "Email or User name and Password required"})
+        return JsonResponse({"info": "Email or User name and Password required"}, status=400)
+    
+    if not (
+        User.objects.filter(email=username).exists() 
+        or User.objects.filter(username=username).exists()
+    ):
+        return JsonResponse({"info": "Invalid credentials"}, status=400)
     
     if not User.objects.filter(email=username).exists():
         username = User.objects.get(username=username).email
